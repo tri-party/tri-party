@@ -1,0 +1,68 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id "com.google.protobuf" version "0.9.1"
+    id 'idea'
+}
+
+group = 'dgrubjesic.tri_party'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+    compileOnly 'org.projectlombok:lombok'
+
+    runtimeOnly 'org.postgresql:r2dbc-postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
+
+//    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    implementation 'org.springframework.boot:spring-boot-starter-rsocket'
+
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    implementation 'com.google.protobuf:protobuf-java:3.21.10'
+
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'io.projectreactor:reactor-test'
+//    testImplementation 'org.testcontainers:junit-jupiter'
+//    testImplementation 'org.testcontainers:postgresql'
+//    testImplementation 'org.testcontainers:r2dbc'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.21.9'
+    }
+}
+
+// If you use Intellij add this so it can find the generated classes
+idea {
+    module {
+        sourceDirs += file("src/main/proto")
+        sourceDirs += file("src/generated/main/java")
+
+        generatedSourceDirs += file('src/generated/main/java')
+    }
+}
+
+// clean generated code
+clean {
+    delete 'src/generated/main'
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package dgrubjesic.tri_party.proto;
+
+option java_multiple_files = true;
+
+message CreateUserRequest {
+  string email = 1;
+}
+
+message CreateUserResponse {
+  string id = 1;
+  string email = 2;
+}
