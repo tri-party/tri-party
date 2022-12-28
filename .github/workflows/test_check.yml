@@ -14,7 +14,6 @@ jobs:
     - uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
-        java-version: '19'
 
     - name: Make gradlew executable
       run: chmod +x ./gradlew
