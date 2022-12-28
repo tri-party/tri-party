@@ -14,7 +14,5 @@ public interface UserMapper {
 
     CreateUserRequest map(User user);
 
-
-
     User map(CreateUserResponse response);
 }
