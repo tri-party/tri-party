@@ -2,3 +2,5 @@ rootProject.name = 'dgrubjesic.tri_party'
 
 include 'user'
 include 'user_repo'
+include 'assets'
+
