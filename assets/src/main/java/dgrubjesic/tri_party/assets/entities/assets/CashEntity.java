@@ -1,6 +1,5 @@
 package dgrubjesic.tri_party.assets.entities.assets;
 
-import dgrubjesic.tri_party.assets.entities.assets.AssetEntity;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
