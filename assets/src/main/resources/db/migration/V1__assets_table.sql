@@ -1,6 +1,6 @@
 CREATE TABLE assets (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    name varchar(50) UNIQUE NOT NULL,
+    name varchar(50),
     description varchar(100)
 );
 
