@@ -1,9 +1,8 @@
-package dgrubjesic.tri_party.assets.repo;
+package dgrubjesic.tri_party.assets.out.adapter;
 
 import dgrubjesic.tri_party.assets.entities.assets.CashEntity;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 

@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @Controller
-public class UserRepoProtoListener{
+public class UserRepoProtoListener {
 
     private final UserRepoUseCase useCase;
     private final UserRepoMapper mapper;

@@ -1,4 +1,4 @@
-package dgrubjesic.tri_party.assets.repo;
+package dgrubjesic.tri_party.assets.out.adapter;
 
 import dgrubjesic.tri_party.assets.entities.assets.InstrumentEntity;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
