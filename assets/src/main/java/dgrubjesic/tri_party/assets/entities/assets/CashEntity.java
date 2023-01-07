@@ -1,14 +1,17 @@
 package dgrubjesic.tri_party.assets.entities.assets;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
-@SuperBuilder
+@Builder
 @Getter
-public class CashEntity extends AssetEntity {
+public class CashEntity {
 
+    private final UUID id;
+    private final UUID assetId;
     private final int decimalPlaces;
     private final BigDecimal smallestTradableAmount;
     private final BigDecimal biggestTradableAmount;

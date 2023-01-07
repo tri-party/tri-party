@@ -6,10 +6,8 @@ import dgrubjesic.tri_party.assets.domain.assets.Instrument;
 import dgrubjesic.tri_party.assets.domain.mapper.AssetMapper;
 import dgrubjesic.tri_party.assets.entities.join_tables.AssetToQualificationEntity;
 import dgrubjesic.tri_party.assets.in.AssetUseCase;
-import dgrubjesic.tri_party.assets.repo.AssetToQualificationRepo;
-import dgrubjesic.tri_party.assets.repo.CashRepo;
-import dgrubjesic.tri_party.assets.repo.InstrumentRepo;
-import dgrubjesic.tri_party.assets.repo.QualificationRepo;
+import dgrubjesic.tri_party.assets.repo.*;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,8 @@ public class AssetService implements AssetUseCase {
     private final QualificationRepo qualificationRepo;
     private final CashRepo cashRepo;
     private final InstrumentRepo instrumentRepo;
+
+    private final AssetRepo assetRepo;
     private final AssetMapper mapper;
 
 
@@ -35,8 +35,9 @@ public class AssetService implements AssetUseCase {
                 .map(AssetToQualificationEntity::getQualificationId)
                 .collectList()
                 .map(qualificationRepo::findAllById);
-        return cashRepo.findById(uuid).zipWith(qualifications)
-                .flatMap( t -> t.getT2().collectList().map(s -> mapper.map(t.getT1(), s)));
+        var asset = assetRepo.findById(uuid);
+        return Mono.zip(cashRepo.findById(uuid), qualifications, asset)
+                .flatMap( t -> t.getT2().collectList().map(s -> mapper.map(t.getT1(), s, t.getT3())));
     }
 
     @Override
@@ -45,7 +46,8 @@ public class AssetService implements AssetUseCase {
                 .map(AssetToQualificationEntity::getQualificationId)
                 .collectList()
                 .map(qualificationRepo::findAllById);
-        return instrumentRepo.findById(uuid).zipWith(qualifications)
-                .flatMap( t -> t.getT2().collectList().map(s -> mapper.map(t.getT1(), s)));
+        var asset = assetRepo.findById(uuid);
+        return Mono.zip(instrumentRepo.findById(uuid), qualifications, asset)
+                .flatMap( t -> t.getT2().collectList().map(s -> mapper.map(t.getT1(), s, t.getT3())));
     }
 }

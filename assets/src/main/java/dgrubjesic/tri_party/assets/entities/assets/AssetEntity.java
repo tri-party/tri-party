@@ -1,13 +1,13 @@
 package dgrubjesic.tri_party.assets.entities.assets;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
-@SuperBuilder
+@Builder
 @Getter
-public abstract class AssetEntity {
+public class AssetEntity {
 
     private final UUID id;
     private final String name;

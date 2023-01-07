@@ -1,19 +1,23 @@
 CREATE TABLE assets (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    name varchar(50),
+    name varchar(50) UNIQUE NOT NULL,
     description varchar(100)
 );
 
 CREATE TABLE cashes (
+    id BIGSERIAL PRIMARY KEY,
+    asset_id uuid references assets(id),
     decimal_places int NOT NULL,
     smallest_tradable_amount numeric not null,
     biggest_tradable_amount numeric not null
-) inherits (assets);
+);
 
 CREATE TABLE instruments (
+    id BIGSERIAL PRIMARY KEY,
+    asset_id uuid references assets(id),
     smallest_tradable_amount bigint not null,
     biggest_tradable_amount bigint not null
-) inherits (assets);
+);
 
 CREATE TABLE qualifications(
     id BIGSERIAL PRIMARY KEY,
