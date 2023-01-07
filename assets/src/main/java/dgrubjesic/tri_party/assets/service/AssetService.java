@@ -9,7 +9,10 @@ import dgrubjesic.tri_party.assets.in.AssetUseCase;
 import dgrubjesic.tri_party.assets.out.adapter.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -23,13 +26,10 @@ public class AssetService implements AssetUseCase {
     private final QualificationRepo qualificationRepo;
     private final CashRepo cashRepo;
     private final InstrumentRepo instrumentRepo;
-
     private final AssetRepo assetRepo;
     private final AssetMapper mapper;
 
-
-    @Override
-    public Mono<Cash> getCash(UUID uuid) {
+    private Mono<Cash> getCash(UUID uuid) {
         var qualifications = assetToQualificationRepo.findAllByAssetId(uuid)
                 .map(AssetToQualificationEntity::getQualificationId)
                 .collectList()
@@ -39,8 +39,7 @@ public class AssetService implements AssetUseCase {
                 .flatMap( t -> t.getT2().collectList().map(s -> mapper.map(t.getT1(), s, t.getT3())));
     }
 
-    @Override
-    public Mono<Instrument> getInstrument(UUID uuid) {
+    private Mono<Instrument> getInstrument(UUID uuid) {
         var qualifications = assetToQualificationRepo.findAllByAssetId(uuid)
                 .map(AssetToQualificationEntity::getQualificationId)
                 .collectList()
@@ -48,5 +47,17 @@ public class AssetService implements AssetUseCase {
         var asset = assetRepo.findById(uuid);
         return Mono.zip(instrumentRepo.findById(uuid), qualifications, asset)
                 .flatMap( t -> t.getT2().collectList().map(s -> mapper.map(t.getT1(), s, t.getT3())));
+    }
+
+    @Override
+    public Mono<ServerResponse> getCash(ServerRequest serverRequest) {
+        return getCash(UUID.fromString(serverRequest.pathVariable("id")))
+                .flatMap(s -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(s));
+    }
+
+    @Override
+    public Mono<ServerResponse> getInstrument(ServerRequest serverRequest) {
+        return getInstrument(UUID.fromString(serverRequest.pathVariable("id")))
+                .flatMap(s -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(s));
     }
 }
