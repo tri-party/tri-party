@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package dgrubjesic.tri_party.proto;
+
+option java_multiple_files = true;
+
+message AssetRequest {
+  string id = 1;
+}
+
+message CashAssetResponse {
+   string id = 1;
+   string name = 2;
+   string description = 3;
+   repeated Qualification qualifications = 4;
+   int32 decimalPlaces = 5;
+   BDecimal smallestTradableAmount = 6;
+   BDecimal biggestTradableAmount = 7;
+}
+
+message InstrumentAssetResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  repeated Qualification qualifications = 4;
+  int64 smallestTradableAmount = 6;
+  int64 biggestTradableAmount = 7;
+}
+
+message Qualification {
+  string key = 1;
+  string value = 2;
+}
+
+message BDecimal {
+  int32 scale = 1;
+  int32 precision = 2;
+  bytes value = 3;
+}

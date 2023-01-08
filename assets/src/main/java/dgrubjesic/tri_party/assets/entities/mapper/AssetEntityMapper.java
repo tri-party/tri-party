@@ -1,4 +1,4 @@
-package dgrubjesic.tri_party.assets.domain.mapper;
+package dgrubjesic.tri_party.assets.entities.mapper;
 
 import dgrubjesic.tri_party.assets.domain.assets.Cash;
 import dgrubjesic.tri_party.assets.domain.assets.Instrument;
@@ -14,7 +14,7 @@ import org.mapstruct.ReportingPolicy;
 import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface AssetMapper {
+public interface AssetEntityMapper {
 
     @Mapping(target = "id", source = "assetEntity.id")
     Cash map(CashEntity entity, List<QualificationEntity> qualifications, AssetEntity assetEntity);
